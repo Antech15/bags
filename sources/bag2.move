@@ -69,7 +69,7 @@ module bags::bag2{
         let mut child: &mut Child;
 
         let mut i = 0;
-        while(i < 1000) {
+        while(i < 250) {
             let mut j = 0;
             while (j < 15){
                 bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
@@ -87,7 +87,7 @@ module bags::bag2{
         let mut bag_ref: &mut bag::Bag;
         let mut child: &mut Child;
 
-        while (i < 1000) {
+        while (i < 250) {
             let mut j = 0;
             while (j < 15){
                 bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
