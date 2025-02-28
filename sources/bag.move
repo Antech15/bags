@@ -83,6 +83,13 @@ module bags::bag{
             while (j < 15){
                 bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
                 child = bag::borrow_mut(bag_ref, j);
+
+                let mut k = 0;
+                while(k < 100) {
+                    let curr_num = vector::borrow_mut(&mut child.wrapper.vec, k);
+
+                    k = k + 1;
+                };
                 j = j + 1;
             };
             i = i + 1;
