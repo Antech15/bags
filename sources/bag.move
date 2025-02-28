@@ -72,33 +72,34 @@ module bags::bag{
         transfer::transfer(hero, tx_context::sender(ctx));        
     }
 
-    public entry fun access_hero_with_bag_in_dynamic_field(hero_obj_ref: &mut Hero){
+    public entry fun access_hero_with_bag_in_dynamic_field(hero_obj_ref: &mut Hero): vector<u64>{
         let mut i = 0;
         
-        let mut bag_ref: &mut bag::Bag = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
-        let mut child: &mut Child = bag::borrow_mut(bag_ref, 0);
-        i = i + 1;
+        let mut bag_ref: &mut bag::Bag;
+        let mut child: &mut Child;
+        let mut temp = vector::empty<u64>();
 
-        while (i < 1000){
+        while (i < 15){
             bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
-            child = bag::borrow_mut(bag_ref, 0);
+            child = bag::borrow_mut(bag_ref, i);
+            temp = child.wrapper.vec;
             i = i + 1;
-        }
+        };
+        temp
     }
 
     public entry fun update_hero_with_bag_in_dynamic_field(hero_obj_ref: &mut Hero){
         let mut i = 0;
 
-        let mut bag_ref: &mut bag::Bag = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
+        let mut bag_ref: &mut bag::Bag;
+        let mut child: &mut Child;
 
-        let mut child: &mut Child = bag::borrow_mut(bag_ref, 0);
-        child.wrapper.vec.push_back(0);
-
-        while (i < 1000){
+        while (i < 15){
             bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
 
-            child = bag::borrow_mut(bag_ref, 0);
+            child = bag::borrow_mut(bag_ref, i);
             child.wrapper.vec.push_back(i);
+            child.wrapper.vec.pop_back();
 
             i = i + 1;
         }
