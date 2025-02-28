@@ -72,20 +72,21 @@ module bags::bag{
         transfer::transfer(hero, tx_context::sender(ctx));        
     }
 
-    public entry fun access_hero_with_bag_in_dynamic_field(hero_obj_ref: &mut Hero): vector<u64>{
+    public entry fun access_hero_with_bag_in_dynamic_field(hero_obj_ref: &mut Hero){
         let mut i = 0;
         
-        let mut bag_ref: &mut bag::Bag;
+        let mut bag_ref: &mut bag::Bag = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
         let mut child: &mut Child;
-        let mut temp = vector::empty<u64>();
-
-        while (i < 15){
-            bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
-            child = bag::borrow_mut(bag_ref, i);
-            temp = child.wrapper.vec;
+        
+        while(i < 1000) {
+            let mut j = 0;
+            while (j < 15){
+                bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
+                child = bag::borrow_mut(bag_ref, j);
+                j = j + 1;
+            };
             i = i + 1;
-        };
-        temp
+        }
     }
 
     public entry fun update_hero_with_bag_in_dynamic_field(hero_obj_ref: &mut Hero){
@@ -94,18 +95,21 @@ module bags::bag{
         let mut bag_ref: &mut bag::Bag;
         let mut child: &mut Child;
 
-        while (i < 15){
-            bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
-            child = bag::borrow_mut(bag_ref, i);
-
+        while(i < 1000) {
             let mut j = 0;
-            while(j < 100) {
-                let curr_num: &mut u64 = vector::borrow_mut(&mut child.wrapper.vec, j);
-                *curr_num = j;
-                
+            while (j < 15){
+                bag_ref = dynamic_field::borrow_mut(&mut hero_obj_ref.id, b"bag");
+                child = bag::borrow_mut(bag_ref, j);
+
+                let mut k = 0;
+                while(k < 100) {
+                    let curr_num: &mut u64 = vector::borrow_mut(&mut child.wrapper.vec, k);
+                    *curr_num = k;
+                    
+                    k = k + 1;
+                };
                 j = j + 1;
             };
-
             i = i + 1;
         }
     }
